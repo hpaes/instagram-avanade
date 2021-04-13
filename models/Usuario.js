@@ -1,6 +1,5 @@
 module.exports = (sequelize, DataTypes) => {
-  // define (nomeModel, colunas config)
-
+  // define(nomeModel, colunas, config)
   const Usuario = sequelize.define(
     'Usuario',
     {
@@ -15,10 +14,16 @@ module.exports = (sequelize, DataTypes) => {
   );
 
   Usuario.associate = (models) => {
-    //  relação 1:N (usuário tem vários posts)
-    Usuario.hasMany(models.Post, {
-      as: 'posts',
+    // relação 1:N (usuario tem varios posts)
+    Usuario.hasMany(models.Post, { as: 'posts', foreignKey: 'usuarios_id' });
+
+    // relação N:M (usuario curte varios posts)
+    Usuario.belongsToMany(models.Post, {
+      as: 'curtiu', // alias da relação
+      through: 'curtidas', // tabela intermediária
       foreignKey: 'usuarios_id',
+      otherKey: 'posts_id',
+      timestamps: false,
     });
   };
 
