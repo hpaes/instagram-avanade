@@ -10,7 +10,11 @@ const postsController = {
   show: async (request, response) => {
     const { id } = request.params;
 
-    const post = await Post.findByPk(id);
+    const post = await Post.findByPk({
+      where: {
+        usuarios_id: id,
+      },
+    });
 
     if (!post) {
       return response.status(404).json({ message: 'Post not found' });
