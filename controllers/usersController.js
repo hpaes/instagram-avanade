@@ -9,25 +9,24 @@ const usersController = {
   create: async (request, response) => {
     const { nome, email, senha } = request.body;
 
-    const usuario = {
+    const usuario = await Usuario.create({
       nome,
       email,
       senha,
-    };
+    });
 
-    await Usuario.create(usuario);
-
-    return response.status(201).send();
+    return response.status(201).json(usuario);
   },
 
   update: async (request, response) => {
-    const { nome, email } = request.body;
+    const { nome, email, senha } = request.body;
     const { id } = request.params;
 
     const update = await Usuario.update(
       {
-        nome: nome,
-        email: email,
+        nome,
+        email,
+        senha,
       },
       {
         where: {
@@ -36,31 +35,19 @@ const usersController = {
       }
     );
 
-    const user = {
-      nome,
-      email,
-    };
-
     if (!update) {
       return response.status(404).json({ message: 'User not found' });
     }
 
-    return response.status(201).json(user);
+    return response.status(201).json(update);
   },
 
   delete: async (request, response) => {
     const { id } = request.params;
 
-    // const findId = await Usuario.findByPk(id);
-
-    // console.log(findId);
-    // if (!findId) {
-    //   return response.status(404).json({ message: 'User not found' });
-    // }
-
     const deleted = await Usuario.destroy({
       where: {
-        id: id,
+        id,
       },
     });
 
