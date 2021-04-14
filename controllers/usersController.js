@@ -6,6 +6,18 @@ const usersController = {
     return response.json(usuarios);
   },
 
+  show: async (request, response) => {
+    const { id } = request.params;
+
+    const usuarios = await Usuario.findByPk(id);
+
+    if (!usuarios) {
+      return response.status(404).json({ message: 'User not found' });
+    }
+
+    return response.status(200).json(usuarios);
+  },
+
   create: async (request, response) => {
     const { nome, email, senha } = request.body;
 
@@ -30,7 +42,7 @@ const usersController = {
       },
       {
         where: {
-          id: id,
+          id,
         },
       }
     );

@@ -7,6 +7,18 @@ const postsController = {
     return response.json(posts);
   },
 
+  show: async (request, response) => {
+    const { id } = request.params;
+
+    const post = await Post.findByPk(id);
+
+    if (!post) {
+      return response.status(404).json({ message: 'Post not found' });
+    }
+
+    return response.status(200).json(post);
+  },
+
   create: async (request, response) => {
     const { texto, img, usuarios_id } = request.body;
 
