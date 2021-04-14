@@ -3,7 +3,7 @@ const { Usuario } = require('../models');
 module.exports = async (request, response, next) => {
   const { nome, email, senha } = request.body;
 
-  if (!email) {
+  if (!email || email.length < 0) {
     return response.status(400).json({ error: 'Invalid email' });
   }
 
