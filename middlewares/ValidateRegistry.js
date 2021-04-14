@@ -9,7 +9,7 @@ module.exports = async (request, response, next) => {
     },
   });
 
-  if (userExists.length) {
+  if (!email || userExists.length) {
     return response.status(404).json({ error: 'Email already registred' });
   } else if (!senha || senha.length < 6 || senha.length > 12) {
     return response.status(400).json({ error: 'Invalid password format' });
