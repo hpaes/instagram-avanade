@@ -26,21 +26,19 @@ const postsController = {
       texto,
       img,
       usuarios_id,
+      n_likes: 0,
     });
 
     return response.status(201).json(post);
   },
 
   update: async (request, response) => {
-    const { texto, img } = request.body;
+    const { texto } = request.body;
     const { id } = request.params;
 
-    const update = await Usuario.update(
+    const validate = await Post.update(
       {
         texto,
-        img,
-        usuarios_id,
-        n_likes,
       },
       {
         where: {
@@ -49,11 +47,17 @@ const postsController = {
       }
     );
 
-    if (!update) {
-      return response.status(404).json({ message: 'Post not found' });
-    }
+    console.log(validate[0]);
 
-    return response.status(201).json(update);
+    const update = {
+      texto,
+    };
+
+    if (!validate[0]) {
+      return response.status(400).json({ message: 'Post not found' });
+    } else {
+      return response.json(update);
+    }
   },
 
   delete: async (request, response) => {

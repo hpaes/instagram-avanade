@@ -47,11 +47,17 @@ const usersController = {
       }
     );
 
-    if (!update) {
+    const user = {
+      nome,
+      email,
+      senha,
+    };
+
+    if (!update[0]) {
       return response.status(404).json({ message: 'User not found' });
     }
 
-    return response.status(201).json(update);
+    return response.status(201).json(user);
   },
 
   delete: async (request, response) => {
