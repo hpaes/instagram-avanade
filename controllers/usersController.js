@@ -3,7 +3,7 @@ const { Usuario } = require('../models');
 const usersController = {
   index: async (request, response) => {
     const usuarios = await Usuario.findAll();
-    return response.json(usuarios);
+    return response.render('usuarios', { listUsuarios: usuarios });
   },
 
   show: async (request, response) => {
